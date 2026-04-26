@@ -7,7 +7,7 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 //  CONFIG  ← เปลี่ยนค่านี้หลัง Deploy Apps Script
 // ─────────────────────────────────────────────────────────────────────────────
-const API_URL = "https://script.google.com/macros/s/AKfycbzDNqI-67_Jte0WwkezWlWcpHvXkxeVdot6rrNJPc208mqOhkJUB6ptCGpMbEUTpQ/exec";
+const API_URL     = "YOUR_APPS_SCRIPT_WEB_APP_URL"; // ← ใส่ URL จาก Apps Script
 const MANAGER_PIN = "1234";                          // ← ต้องตรงกับใน Apps Script
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -129,17 +129,16 @@ function InspectorApp() {
   async function doSubmit() {
     setLoading(true);
     try {
-      const payload = {
-        ts: nowStr(),
+      const ts = nowStr();
+      const params = new URLSearchParams({
+        action:    "write",
+        ts:        ts,
         inspector: effectiveName,
-        zone: effectiveZone,
-        result, note,
-      };
-      const res = await fetch(API_URL, {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(payload),
+        zone:      effectiveZone,
+        result:    result,
+        note:      note || "",
       });
+      const res  = await fetch(`${API_URL}?${params.toString()}`);
       const data = await res.json();
       if (data.ok) {
         setStep(2);
@@ -147,7 +146,6 @@ function InspectorApp() {
         showToast("เกิดข้อผิดพลาด: "+data.error, "error");
       }
     } catch (err) {
-      // fallback — บันทึก local ถ้า network มีปัญหา
       showToast("ไม่สามารถส่งข้อมูลได้ กรุณาตรวจสอบการเชื่อมต่อ", "error");
     }
     setLoading(false);
