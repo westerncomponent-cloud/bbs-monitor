@@ -7,7 +7,7 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 //  CONFIG  ← เปลี่ยนค่านี้หลัง Deploy Apps Script
 // ─────────────────────────────────────────────────────────────────────────────
-const API_URL     = "YOUR_APPS_SCRIPT_WEB_APP_URL"; // ← ใส่ URL จาก Apps Script
+const API_URL = "https://script.google.com/macros/s/AKfycby.../exec";
 const MANAGER_PIN = "1234";                          // ← ต้องตรงกับใน Apps Script
 
 // ─────────────────────────────────────────────────────────────────────────────
